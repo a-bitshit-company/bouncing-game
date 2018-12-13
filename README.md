@@ -7,4 +7,4 @@ First download and install processing at https://processing.org/download/. Next 
 # controls
 + **space** for jumping
 + **X** for entering invincible mode (wait for the cooldown to end first)
-+ **hold space** gliding
++ **hold space** for gliding
