@@ -1,4 +1,4 @@
-# bouncing-game
+# jumping game
 A little game with very simplistic graphics. Inspired by chromes offline game. Made by Matteo Kastler and Felix Perktold with processing and lots of love
 
 # install
