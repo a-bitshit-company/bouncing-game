@@ -1,7 +1,3 @@
-//import processing.sound.*;
-//SoundFile file;
-String audioName = "dreamscape.mp3";
-String path;
 Player player;
 public boolean[] pressedKeys = new boolean[100000];
 Obstacle[] obstacles;
@@ -14,37 +10,41 @@ Counter invincibleCooldowntxt;
 Counter invincibleBar;
 boolean invincible;
 float speed;
+Menu menu;
+boolean showMenu = true;
 
-void setup(){
-  path = sketchPath(audioName);
-//  file = new SoundFile(this, path);
-//  file.play();
-  
+void setup(){ 
   invincible = false;
   speed = - 8;
-  score = new Counter();
+  
+  score = new Counter();  
   deathCounter = new Counter();  
   invinciblecooldown = new Counter();
-  
   scoretxt = new Counter();
   deathCountertxt = new Counter();
   invincibleCooldowntxt = new Counter();
-  
   invincibleBar = new Counter();
   
+  menu = new Menu();
   obstacles = new Obstacle[3];
   for(int i = 0; i < obstacles.length; i++){
     obstacles[i] = new Obstacle(i * 500 + width + (int) random(250));
   }
-  size(1500, 750);
+  size(1700, 800);
   player = new Player();
-  smooth(4);
+ // smooth(4);
   color(0);
   noStroke();
 }
 void draw(){
-  score.plusPlus();
   background(0);
+  if(showMenu){
+    menu.show();
+    if(pressedKeys[' '] == true){
+      showMenu = false;
+    }
+  }else{
+  score.plusPlus();
   speed -= 0.0025;
   
   
@@ -58,9 +58,9 @@ void draw(){
      invinciblecooldown.show(width / 2, 150);
   }
   invincibleBar.invincibleBar(player.invincibleDuration);
-  deathCounter.showText("Deaths", width - 220, 75);
-  invincibleCooldowntxt.showText( "Cooldown", width / 2 - 100, 75);
-  scoretxt.showText("Score", 60, 75);
+  deathCounter.showText("Deaths", width - 125, 75);
+  invincibleCooldowntxt.showText( "Cooldown", width / 2, 75);
+  scoretxt.showText("Score", 100, 75);
   
   
   player.show();
@@ -70,13 +70,14 @@ void draw(){
   for(int i = 0; i < obstacles.length; i++){
     obstacles[i].show();
     obstacles[i].move();
-    
+    //death
     if(!invincible && compareCoords(player.getCoords(), obstacles[i].getCoords())){
       score = new Counter();
       deathCounter.plusPlus();
       delay(350);
       restart();
     }
+  }
   }
 }
 
@@ -96,12 +97,16 @@ boolean compareCoords(float[] objA, float[]objB){
 
 
 void restart() {
+  println("restart");
+  showMenu = true;
+  
   for(int i = 0; i < obstacles.length; i++){
     obstacles[i] = new Obstacle(i * 500 + width);
   }
   speed = -8;
   player = new Player();
 }
+ 
 //tolowercase!!
 void keyPressed(){
   pressedKeys[key] = true;
